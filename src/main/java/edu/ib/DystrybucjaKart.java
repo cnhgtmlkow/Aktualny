@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public interface DystrybucjaKart {
+public class DystrybucjaKart {
     /*
     okresla kto ma jakie karty na dany moment
     gracz1
@@ -21,13 +21,14 @@ public interface DystrybucjaKart {
 
         Image Pik5 = new Image("fxml/cards/fiveofspades.png");
 
-        String[] Kolory =  {"Karo", "Kier", "Trefl", "Pik"};
+        String[] Kolory =  {"clubs", "hearts", "spades", "diamonds"};
         String[] Rangi = {
-                "2", "3", "4", "5", "6", "7", "8", "9", "10", "Walet", "Królowa", "Król", "As"};
+                "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king", "ace"};
         for(int i = 0; i<Rangi.length; i++){
             for(int j = 0; j<Kolory.length; j++){
-                Karta karta = new Karta(Kolory[j], Rangi[i]);
-                ImageView nowaKarta = new ImageView("fxml/cards/"+"of"+Rangi[i]+.png");
+                ImageView obrazek = new ImageView("fxml/cards/"+Rangi[i]+"of"+Kolory[j]+".png");
+                Karta karta = new Karta(Kolory[j], Rangi[i], obrazek);
+                karta.setObrazek(obrazek);
                 talia.add(karta);
                 System.out.println(karta.toString());
 
@@ -43,24 +44,37 @@ public interface DystrybucjaKart {
         return talia;
     }
 
-    public static void rozdanie(ArrayList<Karta> talia, int liczbaGraczy, Gracz [] gracz, Stol stol) {
-        tasowansko(talia);
-        ArrayList<Karta> kupka = new ArrayList<Karta>();
-        kupka = talia;
-        for (int i = 0; i<liczbaGraczy;i++){ //daje po osiem kart graczom
-            ArrayList<Karta> dlaGracza = new ArrayList<Karta>(8);
-            for (int j = 0 + i*8; j<8+i*8; j++){
-                dlaGracza.add(talia.get(j+8*i));
-                kupka.remove(j+8*i);
+    public static ArrayList<Karta>[] rozdanie(ArrayList<Karta> talia, int liczbaGraczy, Gracz [] gracz, Stol stol) {
+
+        ArrayList[] stosy = new ArrayList[3];
+        ArrayList<Karta> stosOczekujacy = talia;
+
+        for (int i = 0; i<liczbaGraczy; i++){
+            ArrayList<Karta> proPlayer = new ArrayList<Karta>();
+            for (int j = 0; j<8; j++){
+                proPlayer.add(talia.get(0));
+                talia.remove(0);
+
             }
-            gracz[i].setKarty(dlaGracza);
-
+            gracz[i].setKarty(proPlayer);
         }
+//        for (int i = 0; i<liczbaGraczy;i++){ //daje po osiem kart graczom
+//            ArrayList<Karta> dlaGracza = new ArrayList<Karta>(8);
+//            for (int j = 0; j<8; j++){
+//                dlaGracza.add(stosOczekujacy.get(j));
+//                stosOczekujacy.remove(j);
+//            }
+//            gracz[i].setKarty(dlaGracza);
+//
+//        }
+        stol.setOczekujace(talia);
+//        stol.setAktywna(talia.get(liczbaGraczy*8));
+//        stol.setOczekujace(stosOczekujacy);
 
-        stol.setAktywna(talia.get(liczbaGraczy*8));
-        kupka.remove(liczbaGraczy*8);
-        stol.setOczekujace(kupka);
-//        AbstractMethodError
+        stosy[0] = gracz[0].getKarty();
+        stosy[1] = gracz[1].getKarty();
+        stosy[2] = stol.getOczekujace();
+        return stosy;
 
 
     }

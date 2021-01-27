@@ -2,14 +2,16 @@ package edu.ib;
 
 import java.util.ArrayList;
 
-public class Gracz implements DystrybucjaKart{
+public class Gracz {
     /*
     gracz ma:
     karty
     mozliwosc gry
      */
     private ArrayList<Karta> karty;
+    public Gracz() {
 
+    }
     public Gracz(ArrayList<Karta> karty) {
         this.karty = karty;
     }

@@ -10,12 +10,19 @@ public class Karta {
     private String kolor;
     private String ranga;
     private ImageView obrazek;
-    private ImageView tylKarty;
 
-    public Karta(String kolor, String ranga) {
+    public Karta() {
+
+    }
+
+    public ImageView getObrazek() {
+        return obrazek;
+    }
+
+    public Karta(String kolor, String ranga, ImageView obrazek) {
         this.kolor = kolor;
         this.ranga = ranga;
-//        this.tylKarty = ImageView("fxml/cards/cardback.png");
+        this.obrazek = obrazek;
     }
     public String getKolor() {
         return kolor;
@@ -29,6 +36,7 @@ public class Karta {
         return ranga.equals(innaKarta.ranga) &&
                 kolor.equals(innaKarta.kolor);
     }
+
 
     public void setObrazek(ImageView obrazek) {
         this.obrazek = obrazek;
